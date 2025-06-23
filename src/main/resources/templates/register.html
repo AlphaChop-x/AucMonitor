@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Registration page </title>
+</head>
+<body style="text-align: center; padding-top: 200px">
+<div th:if="${param.error}">
+    Invalid username and password.
+</div>
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+<form th:action="@{/register}" th:object="${user}" method="post">
+    <div class="form-group">
+        <label> User Name :
+            <input type="text" th:field="*{username}" class="${#fields.hasErrors('username')} ? 'is-invalid' : ''"
+                   name="username"/>
+        </label>
+        <div th:if="${#fields.hasErrors('username')}" class="invalid-feedback">
+            <span th:each="err : ${#fields.errors('username')}" th:text="${err}"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label> Email :
+            <input type="text" th:field="*{email}" class="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+                   name="email"/>
+        </label>
+        <div th:if="${#fields.hasErrors('email')}" class="invalid-feedback">
+            <span th:each="err : ${#fields.errors('email')}" th:text="${err}"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label> Password:
+            <input type="password" th:field="*{password}" class="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
+                   name="password"/>
+        </label>
+        <div th:if="${#fields.hasErrors('password')}" class="invalid-feedback">
+            <span th:each="err : ${#fields.errors('password')}" th:text="${err}"></span>
+        </div>
+    </div>
+    <div><input type="submit" value="Register"/>Зарегистрироваться</div>
+</form>
+</body>
+</html>
