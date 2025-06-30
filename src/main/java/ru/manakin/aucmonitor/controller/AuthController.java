@@ -22,10 +22,10 @@ public class AuthController {
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String processLogin() {
-//        return "";
-//    }
+    @PostMapping("/login")
+    public String processLogin() {
+        return "redirect:/auction";
+    }
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {

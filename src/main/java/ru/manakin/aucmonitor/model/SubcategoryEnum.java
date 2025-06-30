@@ -2,14 +2,12 @@ package ru.manakin.aucmonitor.model;
 
 public enum SubcategoryEnum {
     // Артефакты
-    biochemical, electrophysical, gravity, thermal, other_arts,
-
+    BIOCHEMICAL, ELECTROPHYSICAL, GRAVITY, THERMAL, OTHER_ARTS,
     // Броня
-    clothes, combat, combined, device, scientist,
+    CLOTHES, COMBAT, COMBINED, DEVICE, SCIENTIST,
 
     // Обвесы
-    accessory, barrel, collimator_sights, forend, mag, pistol_handle, other,
-
+    ACCESSORY, BARREL, COLLIMATOR_SIGHTS, FOREND, MAG, PISTOL_HANDLE, OTHER,
     // Оружие
-    assault_rifle, heavy, machine_gun, melee, pistol, shotgun_rifle, sniper_rifle, submachine_gan
+    ASSAULT_RIFLE, HEAVY, MACHINE_GUN, MELEE, PISTOL, SHOTGUN_RIFLE, SNIPER_RIFLE, SUBMACHINE_GUN
 }

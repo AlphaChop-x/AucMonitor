@@ -1,8 +1,12 @@
 package ru.manakin.aucmonitor.model;
 
 public enum CategoryEnum {
-    ARTEFACTS,
+    ARTEFACT,
     ARMOR,
     ATTACHMENT,
-    WEAPON
+    WEAPON,
+    BULLET,
+    MISC,
+    OTHER,
+    CONTAINERS
 }

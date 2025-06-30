@@ -1,6 +1,7 @@
 package ru.manakin.aucmonitor.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,7 +9,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.manakin.aucmonitor.model.AppUser;
+import ru.manakin.aucmonitor.model.Item;
 import ru.manakin.aucmonitor.repository.AppUserRepository;
+
+import java.util.List;
 
 
 @Service
@@ -28,7 +32,6 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         return appUserRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 

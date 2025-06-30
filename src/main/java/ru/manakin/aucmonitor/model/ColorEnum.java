@@ -1,5 +1,5 @@
 package ru.manakin.aucmonitor.model;
 
 public enum ColorEnum {
-    WHITE, GREEN, BLUE, PURPLE, RED, YELLOW
+    DEFAULT, RANK_PICKLOCK, RANK_NEWBIE, RANK_STALKER, RANK_VETERAN, RANK_MASTER, RANK_LEGEND
 }

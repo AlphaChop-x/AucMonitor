@@ -11,4 +11,6 @@ public interface AppUserRepository extends CrudRepository<AppUser, Long> {
     boolean existsAppUserByEmail(String email);
 
     Optional<AppUser> findByUsername(String username);
+
+    void saveAndFlush(AppUser managedUser);
 }

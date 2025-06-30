@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Auction Monitor</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/favorites.css">
+    <title>Поиск предметов</title>
 </head>
 <body>
+<div class="favorites-section" th:if="${favoriteItems != null and !#lists.isEmpty(favoriteItems)}">
+    <div class="favorites-title">Ваши избранные предметы:</div>
+    <ul class="favorites-list">
+        <li th:each="item, stat : ${favoriteItems}"
+            th:if="${stat.index < 10}"
+            class="favorite-item">
+            <a th:href="@{/auction/{id}(id=${item.apiId})}"
+               th:text="${item.name}"></a>
+        </li>
+    </ul>
+</div>
 
+<form th:action="@{/auction}" method="get">
+    <input type="text"
+           name="search"
+           th:value="${search}"
+           placeholder="Введите название предмета..."
+           class="search-box">
+    <button type="submit">Поиск</button>
+</form>
+
+<div th:if="${#lists.isEmpty(items)}">
+    <p>Ничего не найдено</p>
+</div>
+
+<ul class="item-list" th:unless="${#lists.isEmpty(items)}">
+    <li th:each="item : ${items}">
+        <a th:href="@{/auction/{id}(id=${item.apiId})}"
+           th:text="${item.name}"
+           class="item-link"></a>
+    </li>
+</ul>
 </body>
 </html>

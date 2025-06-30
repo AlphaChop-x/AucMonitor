@@ -1,13 +1,15 @@
 package ru.manakin.aucmonitor.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Setter;
 
 import java.util.List;
 
-public class ApiResponseDto {
+@Setter
+public class ApiLotsDto {
     @JsonProperty("total")
-    private String total;
+    public String total;
 
     @JsonProperty("lots")
-    private List<LotDto> lots;
+    public List<LotDto> lots;
 }

@@ -1,25 +1,36 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example </title>
+    <title>Spring Security Example</title>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
-<body style="text-align: center; padding-top: 200px">
-<div th:if="${param.error}" style="color: red">
+<body>
+<div th:if="${param.error}" class="error-message">
     Invalid username and password.
 </div>
-<div th:if="${param.logout}" style="color: red">
+<div th:if="${param.logout}" class="error-message">
     You have been logged out.
 </div>
-<div th:if="${registered}" style="color: green">
+<div th:if="${registered}" class="success-message">
     You have been registered successfully.
 </div>
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
+
+<form th:action="@{/login}" method="post" class="login-form">
+    <div>
+        <label>User Name: <input type="text" name="username"/></label>
+    </div>
+    <div style="padding-top: 10px"></div>
+    <div>
+        <label>Password: <input type="password" name="password"/></label>
+    </div>
+    <div style="padding-top: 10px"></div>
+    <div>
+        <input type="submit" class="button" value="Sign In"/>
+    </div>
 </form>
-<form th:action="@{/register}" method="get">
-    <input type="submit" value="Register" style="font-size: 16px; color: black">
+
+<form th:action="@{/register}" method="get" class="register-form">
+    <input type="submit" class="button" value="Register">
 </form>
 </body>
 </html>

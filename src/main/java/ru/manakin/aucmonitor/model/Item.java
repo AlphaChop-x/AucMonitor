@@ -1,9 +1,18 @@
 package ru.manakin.aucmonitor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Table
 @Entity
+@Setter
+@Getter
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +32,7 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private SubcategoryEnum subCategory;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private RarityEnum rarity;
-
-    @Column
+    @Column(length = 1000)
     private String description;
 
     @Column
@@ -37,7 +42,7 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ColorEnum color;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private AppUser appUser;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "favoriteItems")
+    private Set<AppUser> appUser = new HashSet<>();
 }

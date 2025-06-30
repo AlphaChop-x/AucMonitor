@@ -1,0 +1,47 @@
+/* Стили для секции избранного */
+.favorites-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.favorites-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #1a73e8;
+    font-size: 1.1em;
+}
+
+.favorites-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.favorite-item {
+    background: #e3f2fd;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #bbdefb;
+    transition: all 0.3s ease;
+}
+
+.favorite-item:hover {
+    background: #bbdefb;
+    transform: translateY(-2px);
+}
+
+.favorite-item a {
+    color: #0d47a1;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.favorite-item a:hover {
+    text-decoration: underline;
+}

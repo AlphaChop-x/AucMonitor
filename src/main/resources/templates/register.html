@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Registration page </title>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body style="text-align: center; padding-top: 200px">
 <div th:if="${param.error}">
@@ -38,7 +39,10 @@
             <span th:each="err : ${#fields.errors('password')}" th:text="${err}"></span>
         </div>
     </div>
-    <div><input type="submit" value="Register"/>Зарегистрироваться</div>
+    <div><input type="submit" value="Register"/></div>
+</form>
+<form th:action="@{/login}" method="get">
+    <input type="submit" value="Login"/>
 </form>
 </body>
 </html>

@@ -1,30 +1,40 @@
 package ru.manakin.aucmonitor.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+import jdk.jfr.Timespan;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+@Setter
+@Getter
 public class LotDto {
     @JsonProperty("itemId")
     private String itemId;
 
     @JsonProperty("amount")
-    private String amount;
+    public String amount;
 
     @JsonProperty("startPrice")
-    private long startPrice;
+    public long startPrice;
 
     @JsonProperty("currentPrice")
-    private long currentPrice;
+    public long currentPrice;
 
     @JsonProperty("buyoutPrice")
-    private long buyoutPrice;
+    public long buyoutPrice;
+
+    public long priceForOne;
 
     @JsonProperty("startTime")
-    private String startTime;
+    public String startTime;
 
     @JsonProperty("endTime")
-    private String endTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd HH:mm:ss")
+    public String endTime;
 
     @JsonProperty("additional")
-    private JsonNode additional;
+    public JsonNode additional;
 }
