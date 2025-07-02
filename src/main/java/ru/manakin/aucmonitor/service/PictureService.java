@@ -6,6 +6,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.manakin.aucmonitor.model.Item;
 
+
+/**
+ * Сервис для формирования URL-адресов изображений предметов.
+ * Генерирует ссылки на иконки предметов из GitHub репозитория Stalcraft Database,
+ * основываясь на категории, подкатегории и apiId предмета.
+ * <p>
+ * Использует {@link UriComponentsBuilder} для построения корректных URL.
+ * </p>
+ * <p>
+ * Логирует сформированные ссылки для отладки.
+ * </p>
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

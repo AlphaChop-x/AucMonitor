@@ -14,6 +14,20 @@ import ru.manakin.aucmonitor.repository.ItemRepository;
 
 import java.util.Set;
 
+
+/**
+ * Сервис для управления списком избранных предметов пользователя.
+ * Обеспечивает добавление, удаление и получение предметов,
+ * которые пользователь пометил как избранные.
+ * <p>
+ * Работа происходит с учётом аутентифицированного пользователя,
+ * данные которого получаются из Spring Security {@link Authentication}.
+ * </p>
+ * <p>
+ * Использует репозитории для доступа к данным пользователей и предметов,
+ * а также {@link jakarta.persistence.EntityManager} для обновления состояния сущностей.
+ * </p>
+ */
 @Service
 @RequiredArgsConstructor
 public class FavoriteService {

@@ -21,6 +21,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+/**
+ * Сервис для взаимодействия с внешним API Stalcraft.
+ * Предоставляет методы для получения данных о лотах аукциона,
+ * истории цен и сортировки полученных данных.
+ * <p>
+ * Использует {@link RestTemplate} для HTTP-запросов и
+ * конфигурационные параметры для аутентификации.
+ * </p>
+ * <p>
+ * Обрабатывает и форматирует данные для удобства дальнейшего использования.
+ * </p>
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

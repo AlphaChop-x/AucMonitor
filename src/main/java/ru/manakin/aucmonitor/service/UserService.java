@@ -10,7 +10,15 @@ import org.springframework.stereotype.Service;
 import ru.manakin.aucmonitor.model.AppUser;
 import ru.manakin.aucmonitor.repository.AppUserRepository;
 
-
+/**
+ * Сервис для работы с пользователями приложения.
+ * Реализует {@link UserDetailsService} для интеграции с Spring Security.
+ * <p>
+ * Предоставляет методы проверки существования пользователя по email или username,
+ * загрузки данных пользователя для аутентификации и регистрации новых пользователей.
+ * При регистрации пароль шифруется с помощью {@link BCryptPasswordEncoder}.
+ * </p>
+ */
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
