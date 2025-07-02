@@ -3,10 +3,8 @@ package ru.manakin.aucmonitor.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
-import jdk.jfr.Timespan;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Setter
 @Getter
@@ -25,6 +23,8 @@ public class LotDto {
 
     @JsonProperty("buyoutPrice")
     public long buyoutPrice;
+
+    public String position;
 
     public long priceForOne;
 

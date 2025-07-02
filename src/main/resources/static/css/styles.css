@@ -1,21 +1,21 @@
 body {
-    font-family: 'Arial', sans-serif; /* Читаемый шрифт */
-    line-height: 1.6; /* Удобочитаемость текста */
-    max-width: 1200px; /* Ограничение ширины */
-    margin: 0 auto; /* Центрирование */
-    padding: 20px; /* Отступы от краёв */
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 .search-box {
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 4px; /* Скруглённые углы */
+    border-radius: 4px;
     width: 300px;
     font-size: 16px;
 }
 
 button {
     padding: 10px 15px;
-    background: #007bff; /* Синий цвет */
+    background: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
@@ -23,5 +23,23 @@ button {
 }
 
 button:hover {
-    background: #0056b3; /* Эффект при наведении */
+    background: #0056b3;
 }
+
+.item-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #fafafa;
+}
+
+.item-list li {
+    margin-bottom: 10px;
+}
+

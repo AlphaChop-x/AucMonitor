@@ -8,9 +8,7 @@
     <link rel="stylesheet" href="/css/item.css">
 </head>
 <body>
-<div id="itemIdHolder" data-item-id="${item.apiId}" style="display: none;"></div>
 <div class="page-container">
-    <!-- Левая колонка - информация о предмете -->
     <div class="item-info-column">
         <div th:if="${item == null}" class="alert alert-error">
             <p>Такого предмета нет</p>
@@ -65,17 +63,18 @@
                 <input type="hidden" name="itemId" th:value="${item.apiId}">
                 <button type="submit" class="btn btn-primary">Delete from Favorites</button>
             </form>
+
+            <form th:action="@{/auction}" method="GET" style="padding-top: 10px">
+                <button type="submit" class="btn btn-primary">Exit</button>
+            </form>
         </div>
     </div>
 
-    <!-- Правая колонка - контент с табами -->
     <div class="content-column">
         <div class="tabs">
             <div class="tab active" onclick="switchTab('auction')">Аукцион</div>
             <div class="tab" onclick="switchTab('history')">История цен</div>
         </div>
-
-        <!-- Контент аукциона -->
         <div id="auction-tab" class="tab-content active">
             <h2>Текущие лоты</h2>
             <table class="data-table">
@@ -117,20 +116,29 @@
                                     </span>
                         </a>
                     </th>
+                    <th>
+                        <a th:href="@{/auction/{id}(id=${item.apiId})}"
+                           class="sort-link">
+                            Позиция в списке, сортировка по цене выкупа
+                        </a>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="lot : ${itemLots.lots}">
+                <tr th:if="${itemLots.lots.isEmpty() and itemLots.errorMessage != null}">
+                    <td colspan="5" th:text="${itemLots.errorMessage}">Много запросов, подождите и попробуйте ещё</td>
+                </tr>
+                <tr th:each="lot : ${itemLots.lots}" th:if="${itemLots.lots != null and !itemLots.lots.isEmpty()}">
                     <td th:text="${lot.amount}"></td>
                     <td th:text="${lot.buyoutPrice}"></td>
                     <td th:text="${lot.priceForOne}"></td>
                     <td th:text="${lot.endTime}"></td>
+                    <td th:text="${lot.position}"></td>
                 </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Контент истории -->
         <div id="history-tab" class="tab-content" style="display: none;">
             <div id="historySection" style="margin-top: 20px;">
                 <button id="loadHistoryBtn" class="btn btn-primary">
@@ -148,7 +156,6 @@
                         </tr>
                         </thead>
                         <tbody id="historyTableBody">
-                        <!-- Данные будут вставлены через JS -->
                         </tbody>
                     </table>
                 </div>
@@ -157,78 +164,45 @@
     </div>
 </div>
 <script th:inline="javascript">
-    document.getElementById('loadHistoryBtn').addEventListener('click', function() {
+    document.getElementById('loadHistoryBtn').onclick = function () {
         var itemId = /*[[${item != null ? item.apiId : ''}]]*/ '';
+        var tableBody = document.getElementById('historyTableBody');
+        var historyContainer = document.getElementById('historyContainer');
+
+        historyContainer.style.display = 'block';
+
         if (!itemId) {
-            var tableBody = document.getElementById('historyTableBody');
             tableBody.innerHTML = '<tr><td colspan="3">Предмет не найден</td></tr>';
-            document.getElementById('historyContainer').style.display = 'block';
             return;
         }
 
-        var count = 20;
-
-        var historyContainer = document.getElementById('historyContainer');
-        historyContainer.style.display = 'block';
-
-        fetch(`/auction/${itemId}/history?count=${count}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка загрузки данных');
-                }
-                return response.json();
-            })
+        fetch(`/auction/${itemId}/history?count=20`)
+            .then(r => r.ok ? r.json() : Promise.reject())
             .then(data => {
-                var tableBody = document.getElementById('historyTableBody');
                 tableBody.innerHTML = '';
-
-                if (data.prices && data.prices.length > 0) {
-                    // Заполняем таблицу данными с форматированием времени
-                    data.prices.forEach(price => {
-                        var row = document.createElement('tr');
-                        // Форматируем время из ISO 8601 в yyyy-MM-dd HH:mm:ss
-                        var formattedTime = new Date(price.time).toLocaleString('ru-RU', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit',
-                            hour12: false
-                        }).replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$2-$1'); // Меняем порядок на yyyy-MM-dd
-                        row.innerHTML = `
-                            <td>${formattedTime}</td>
-                            <td>${price.price}</td>
-                            <td>${price.amount}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
+                if (data.prices && data.prices.length) {
+                    for (const price of data.prices) {
+                        let d = new Date(price.time);
+                        let t = d.toLocaleString('ru-RU', {year:'numeric',month:'2-digit',day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false}).replace(/(\d+)\.(\d+)\.(\d+)\,/, '$3-$2-$1');
+                        tableBody.innerHTML += `<tr><td>${t}</td><td>${price.price}</td><td>${price.amount}</td></tr>`;
+                    }
                 } else {
                     tableBody.innerHTML = '<tr><td colspan="3">Нет данных по истории цен</td></tr>';
                 }
             })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                var tableBody = document.getElementById('historyTableBody');
+            .catch(() => {
                 tableBody.innerHTML = '<tr><td colspan="3">Ошибка загрузки истории цен</td></tr>';
             });
-    });
+    };
 
-    // Переключение между табами
     function switchTab(tabName) {
-        document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.style.display = 'none';
-        });
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.classList.remove('active');
-        });
+        document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
         document.getElementById(tabName + '-tab').style.display = 'block';
         event.currentTarget.classList.add('active');
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        switchTab('auction');
-    });
+    document.addEventListener('DOMContentLoaded', _ => switchTab('auction'));
 </script>
 </body>
 </html>

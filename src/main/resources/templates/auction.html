@@ -6,6 +6,9 @@
     <title>Поиск предметов</title>
 </head>
 <body>
+
+<a th:href="@{/logout}" th:method="POST" class="logout-button">Выйти</a>
+
 <div class="favorites-section" th:if="${favoriteItems != null and !#lists.isEmpty(favoriteItems)}">
     <div class="favorites-title">Ваши избранные предметы:</div>
     <ul class="favorites-list">

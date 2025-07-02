@@ -14,6 +14,15 @@ public class StalcraftApiController {
 
     private final StalcraftApiService stalcraftApiService;
 
+    /**
+     * Метод, необходимый для взаимодействия с сервисом апи сталкрафта, возвращает список лотов
+     *
+     * @param itemId    id предмета заданное разработчиком для работы с api
+     * @param sortBy    порядок сортировки, в котором будут возвращены лоты
+     * @param direction порядок возрастания/убывания
+     * @return {@link ResponseEntity<ru.manakin.aucmonitor.dto.ApiLotsDto>}
+     * содержащий {@link ru.manakin.aucmonitor.dto.ApiLotsDto} и {@code HttpStatus.OK}
+     */
     @RequestMapping("/auction")
     public ResponseEntity<?> getLots(
             @RequestParam String itemId,
