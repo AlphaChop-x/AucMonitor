@@ -9,19 +9,28 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.manakin.aucmonitor.dto.ApiHistoryDto;
 import ru.manakin.aucmonitor.dto.ApiLotsDto;
 import ru.manakin.aucmonitor.model.Item;
-import ru.manakin.aucmonitor.repository.ItemRepository;
 import ru.manakin.aucmonitor.service.FavoriteService;
+import ru.manakin.aucmonitor.service.ItemService;
 import ru.manakin.aucmonitor.service.PictureService;
 import ru.manakin.aucmonitor.service.StalcraftApiService;
 
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Контроллер, отвечающий за работу с аукционом.
+ * Обрабатывает запросы, связанные с поиском предметов, отображением страниц предметов,
+ * а также добавлением и удалением предметов из избранного пользователя.
+ * <p>
+ * Использует сервисы для работы с изображениями, избранным и данными из API
+ * {@link PictureService}, {@link FavoriteService}, {@link StalcraftApiService}, {@link ItemService}.
+ * </p>
+ */
 @Controller
 @RequiredArgsConstructor
 public class AuctionController {
 
-    private final ItemRepository itemRepository;
+    private final ItemService itemService;
     private final PictureService pictureService;
     private final FavoriteService favoriteService;
     private final StalcraftApiService stalcraftApiService;
@@ -45,9 +54,9 @@ public class AuctionController {
         List<Item> items;
 
         if (search != null) {
-            items = itemRepository.findByNameContainingIgnoreCase(search);
+            items = itemService.findByNameIgnoreCase(search);
         } else {
-            items = (List<Item>) itemRepository.findAll();
+            items = itemService.findAll();
         }
 
         Set<Item> favoriteItems = favoriteService.getFavoriteItems(authentication);
@@ -77,14 +86,12 @@ public class AuctionController {
             Model model
     ) {
         ApiLotsDto itemLots = stalcraftApiService.getAuctionApiResponse(itemId, sortBy, order);
-        Item item = itemRepository.findByApiId(itemId).orElse(null);
+        Item item = itemService.findItemByApiId(itemId);
         String pictureUrl = pictureService.getPicture(item);
 
         model.addAttribute("itemLots", itemLots);
         model.addAttribute("item", item);
         model.addAttribute("pictureUrl", pictureUrl);
-
-        model.addAttribute("itemIdHolder", item.getApiId());
 
         return "item";
     }
@@ -119,7 +126,7 @@ public class AuctionController {
             Authentication authentication,
             RedirectAttributes redirectAttributes
     ) {
-        Item item = itemRepository.findByApiId(itemId).orElse(null);
+        Item item = itemService.findItemByApiId(itemId);
 
         favoriteService.addItemToFavorites(item, authentication);
 
@@ -144,7 +151,7 @@ public class AuctionController {
             Authentication authentication,
             RedirectAttributes redirectAttributes
     ) {
-        Item item = itemRepository.findByApiId(itemId).orElse(null);
+        Item item = itemService.findItemByApiId(itemId);
 
         favoriteService.deleteItemFromFavorites(item, authentication);
 
