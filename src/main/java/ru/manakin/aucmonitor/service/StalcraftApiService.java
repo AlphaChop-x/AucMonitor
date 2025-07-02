@@ -106,7 +106,7 @@ public class StalcraftApiService {
             ApiLotsDto errorResponse = new ApiLotsDto();
             errorResponse.setTotal("0");
             errorResponse.setLots(Collections.emptyList());
-            errorResponse.setErrorMessage("Слишком много запросов, попробуйте обновить страницу чуть погодя");
+            errorResponse.setErrorMessage("API игры в данный момент слишком сильно нагружено, придётся немного подождать =(");
             return errorResponse;
         }
 
